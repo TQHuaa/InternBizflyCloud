@@ -36,3 +36,6 @@ Distro Linux (hay distribution Linux) là các bản phát triển dựa trên L
 
 <img src="https://hostingviet.vn/data/tinymce/tin%20tuc%202019/distro-linux-la-gi-2.jpg">
 
+## Tham khảo
+
+https://hostingviet.vn/distro-linux-la-gi
