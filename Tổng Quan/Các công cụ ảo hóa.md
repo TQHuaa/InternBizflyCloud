@@ -1,10 +1,10 @@
 # VMware Installation Steps
 
-1. Tải VMWare tại:
+1. Link to downloading VMWare:
 
 https://www.vmware.com/asean/products/workstation-pro/workstation-pro-evaluation.html
 
-2. Khởi chạy file sau khi tải về
+2. Run file downloaded.
 
 
 3. 'VMWare Product installation window' will be displayed
