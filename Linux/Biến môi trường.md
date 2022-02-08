@@ -3,15 +3,13 @@ Biến môi trường trong Linux là các giá trị có thể thay đổi vớ
 
 ## Cách sử dụng biến môi trường trong Linux
 
-Để xem tất cả biến môi trường trong Ubuntu, dụng lệnh ``env`` hoặc ``printenv``
+Để xem tất cả biến môi trường trong Linux, sử dụng ``set``
 
-<img src="https://github.com/TQHuaa/TrainningVCCloud/blob/main/Pics/1e6e79356d45a11bf854.jpg">
+Để xem các biến cụ thể, sử dụng ``echo $<tên biến>``
 
-Để xem các biến cụ thể, sử dụng ``printenv <tên biến>``
+``echo $HOME``
 
-``printenv HOME``
-
-Để thay đổi biến môi trường, sử dụng lệnh ``export``
+Để thay đổi biến môi trường, sử dụng ``export``
 
 ``export HOME=/home/ubuntu``
 
