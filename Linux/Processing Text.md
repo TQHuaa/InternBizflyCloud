@@ -49,7 +49,7 @@ zweiundvierzig
 forti to 
 ````
 
-**Các Option:
+**Các Option:**
 - Tách file theo số lượng dòng:
   ``$ split -l 3 fourtytwo.txt split42`` //tách file fourtytwo.txt cứ mỗi 3 dòng và lưu vào các file tên split42** (** sắp xếp theo thứ tự alphabet từ aa,ab,...)
 
@@ -63,7 +63,7 @@ Lệnh ``sort`` được sử dụng để sắp xếp các dòng của tệp v�
 
 ``sort [ OPTION ]... [ FILE ]... ``
 
-**Các Option:
+**Các Option:**
   - Sắp xếp các dòng trong tệp, theo các ký tự ở đầu mỗi dòng : ``sort <file>``
   - Sắp xếp các dòng theo thứ tự ngược lại : ``sort -r <file>``
   - ``-n``, ``--numeric-sort`` : Sắp xếp số
@@ -100,7 +100,7 @@ $ nl ContainsBlankLines.txt
  5 Foxtrot 
 ````
   
-**Các Option chính: **  
+**Các Option chính:**  
   - -ba : đánh số cả dòng trống
 
 ## TAC
@@ -119,14 +119,114 @@ $ nl ContainsBlankLines.txt
 Giống như lệnh cat, Nhưng in ngược lại các dòng của file1.txt, từ dòng cuối cùng đến dòng đầu tiên. Cú pháp: 
 `` tac [OPTION]... [FILE]...``
 
-**Các Option chính: **  
+**Các Option chính:**  
 - -b : Gắn dấu phân cách dòng trước mỗi dòng đầu ra thay vì sau.
 - -NS : Sử dụng STRING làm dấu phân tách dòng thay vì một dòng mới.
+
+#  File-Viewing Commands 
+
+## HEAD
+
+Lệnh ``head`` dùng để xem những dòng đầu của tệp tin (theo mặc định là 10 dòng đầu tiên). Chúng ta có thể thay đổi số dòng bằng cách thêm -n vào sau lệnh ``head``. Cú pháp lệnh ``head``:
+
+`` head [ OPTION ]... [ FILE ]...``
+
+**Các Option chính:**
+  - -c, --byte=[-]n: In số byte n đầu tiên của mỗi tệp
+  - -n, --lines=[-]n: In số dòng n đầu tiên của mỗi tệp
+ 
+## TAIL 
+
+Lệnh ``tail`` dùng để xem những dòng đầu của tệp tin (theo mặc định là 10 dòng). Lệnh ``tail`` rất hữu ích khi khắc phục sự cố tệp nhật ký. Cú pháp lệnh ``tail``:
+
+``tail [OPTION]... [FILE]...``
+
+**Các Option chính:**
+  - -n, --lines=[-]n: In số dòng n cuối cùng của mỗi tệp
+  - -n, --lines=[+]n: In tất cả các dòng từ n về sau
+  - -c, --byte=[-]n: In số byte n đầu cuối cùng mỗi tệp
+  
+## LESS or MORE  
+
+*"less is more"*, như câu nói vui trên, tác dụng của hai lệnh gần như là giống nhau mặc dù đều được đề cập trong ``man``. Lệnh less dùng mở một tệp để đọc tương tác, cho phép di chuyển lên xuống và tìm kiếm. Cú pháp: 
+
+Lệnh more
+``more [ OPTION ] FILE [...] ``
+
+Lệnh less
+``less [ OPTION ] FILE [...] ``
+
+Trang lên trang xuống:
+
+  - Phím Space: di chuyển xuống trang mới
+  - Phím b: di chuyển lên lại trang phía trên
+
+Lệnh less có thể dùng phím mũi tên trên bàn phím để scroll lên xuống.
+
+Di chuyển đến cuối, bắt đầu tập tin:
+
+  - Phím G: di chuyển đến cuối tập tin
+  - Phím g: di chuyển đến đầu tập tin
+
+Tìm kiếm một chuỗi
+
+``/{chuỗi}``
+Hay
+
+``?{chuỗi}``
+Theo dõi đầu ra của tệp hiện đang mở:
+
+``Phím F``
+Mở tệp hiện tại trong trình chỉnh sửa:
+
+``Phím v``
+Thoát tệp hiện tại:
+
+``Phím q``
+
+Điểm khác biệt: Điểm khác biệt giữa less và more là less cho phép cuộn ngược lên các trang dữ liệu đã đọc, còn more thì chỉ có thể đọc từ đầu tới cuối. Lệnh less có thể dùng phím mũi tên trên bàn phím để scroll lên xuống, lệnh more không có chức năng này.
+
+#  File-Summarizing Commands 
+
+## CUT
+
+Lệnh cut được sử dụng thao tác với tệp dựa trên cột và được thiết kế để trích xuất các cột cụ thể. Dấu phân cách cột mặc định là ký tự tab.
+Ví dụ 1: Cắt mười sáu ký tự đầu tiên của mỗi dòng STDIN:
+````
+[root@test1 ~]# echo "This is a filetest" | cut -c 1-16
+This is a filete
+````
+
+**Các Option chính:**
+  - -f( --fields=LIST) – Chọn bằng cách chỉ định một trường, một tập hợp các trường hoặc một phạm vi trường. Đây là tùy chọn được sử dụng phổ biến nhất.
+  - -b( --bytes=LIST) – Chọn bằng cách chỉ định một byte, một tập hợp các byte hoặc một dải byte.
+  - -c( --characters=LIST) – Chọn bằng cách chỉ định một ký tự, một bộ ký tự hoặc một dải ký tự.
+
+Ví dụ: 
+  - Ta có file test.txt 
+
+  ````245:789 4567    M:4540  Admin   01:10:1980
+  535:763 4987    M:3476  Sales   11:04:1978````
+  
+  Để hiển thị trường thứ nhất và thứ 3, ta dùng lệnh : 
+  ``cut test.txt -f 1,3``
+  
+  Kết quả :
+  ````
+  245:789    M:4540
+  535:763 M:3476
+  ````
+
+## WC
+
+
 
 # Tài liệu tham khảo 
 https://blogd.net/linux/cach-dung-lenh-sort-uniq-paste-join-split/#4-l%E1%BB%87nh-split
 
 https://vietnamtutor.com/kham-pha-command-line-tren-linux-phan-3-xu-ly-text-bang-filter-trong-linux-cat-join-paste-sort-head-tail-wc/
+
+https://hocdevops.com/commands/lenh-cut-trong-linux/#Cach_su_dung
 
 LPIC-1
 
