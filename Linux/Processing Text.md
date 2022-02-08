@@ -6,11 +6,11 @@ Các lệnh File-Combining dùng để tập hợp các văn bản ngắn gọn 
 
 Giả sử ta có 2 file text chứa nội dung và giờ ta muống gộp nội dung 2 files vào chung 1 file. Ta sẽ làm điều đó với lệnh cat ( concatenate).
 
-``~$ cat file1.txt file2.txt > file3.txt``
+``[root@test1 ~]# cat file1.txt file2.txt > file3.txt``
 
 Ta còn có thể dùng cat như một lệnh để đọc file có nội dung vừa phải như sau:
 
-``~$ cat file3.txt``
+``[root@test1 ~]# cat file3.txt``
 
 Lệnh cat có nhiều option khác nhau đễ hỗ trợ ta thay đổi đôi chút text file khi tiến hành nối file:
 - Nếu ta muốn xem dòng kết thúc ở đâu ta sử dụng option ``-E (end)``, hệ thống sẽ thêm ký hiệu ``$`` vào mỗi cuối dòng.
@@ -22,13 +22,42 @@ Lệnh cat có nhiều option khác nhau đễ hỗ trợ ta thay đổi đôi c
 
 Lệnh cat giúp ta nối file theo vertival (hàng dọc), lệnh join thì ngược lại giúp ta nối file theo horizon (hàng ngang). Mặc định join dùng field đầu tiên làm key để ghép 2 file lại với nhau.
 
-``~$ join list1.txt list2.txt``
+``[root@test1 ~]# join list1.txt list2.txt``
 
 ## PASTE
 
 Lệnh paste dùng để nối dòng với dòng, cách nhau bởi TAB, và không gộp chung key như join.
 
-``~$ paste list1.txt list2.txt``
+``[root@test1 ~]# paste list1.txt list2.txt``
+
+** Các Option chính ** 
+   - -d, --delimiters=LIST
+                các ký tự khác đầu vào được nối sẽ phân tách bằng một ký tự 
+   - -s, --serial
+          chuyển đầu vào thành 
+   - -z, --zero-terminated
+          line delimiter is NUL, not newline
+
+Ví dụ:
+````
+[root@test1 ~]# cat list1.txt
+a
+s
+d
+[root@test1 ~]# cat list2.txt
+t
+
+3
+e
+
+[root@test1 ~]# paste list1.txt list2.txt -d,
+a,t
+s,
+d,3
+,e
+,
+````
+
 
 # File-Transforming Commands 
 
@@ -106,11 +135,11 @@ $ nl ContainsBlankLines.txt
 ## TAC
 
 ````
-~$tac file1.txt
+[root@test1 ~]#tac file1.txt
 3
 2
 1
-~$cat file1.txt
+[root@test1 ~]#cat file1.txt
 1
 2
 3
@@ -275,18 +304,196 @@ Lệnh ``sed`` là công cụ xử lý văn bản mạnh mẽ và là một ti�
 Thông thường lệnh sed hoạt động trên một luồng dữ liệu được đọc từ stdin hoặc một file văn bản. Cú pháp cơ bản của lệnh sed:
 ``sed [OPTIONS] [SCRIPT]… [FILENAME]``
 
-  sed -e command filename	Chỉ định các lệnh chỉnh sửa tại dòng lệnh, hoạt động trên tệp và đưa đầu ra ra ngoài.
-  sed -f scriptfile filename	Chỉ định một scriptfile chứa lệnh sed, hoạt động trên tệp và đưa đầu ra ra ngoài.
-  sed s/pattern/replace_string/ file	Thay thế chuỗi đầu tiên xuất hiện trong mỗi dòng
-  sed s/pattern/replace_string/g file	Thay thế tất cả các lần xuất hiện trong mỗi dòng
-  sed 1,3s/pattern/replace_string/g file	Thay thế tất cả các lần xuất hiện chuỗi trong một loạt các dòng
-  sed -i s/pattern/replace_string/g file	Lưu các thay đổi để thay thế chuỗi trong cùng một tệp
+**Các Option chính:**
+  - sed -e command filename	                : Chỉ định các lệnh chỉnh sửa tại dòng lệnh, hoạt động trên tệp và đưa đầu ra ra ngoài.
+  - sed -f scriptfile filename	            : Chỉ định một scriptfile chứa lệnh sed, hoạt động trên tệp và đưa đầu ra ra ngoài.
+  - sed s/pattern/replace_string/ file      : Thay thế chuỗi đầu tiên xuất hiện trong mỗi dòng.
+  - sed s/pattern/replace_string/g file	    : Thay thế tất cả các lần xuất hiện trong mỗi dòng.
+  - sed 1,3s/pattern/replace_string/g file	: Thay thế tất cả các lần xuất hiện chuỗi trong một loạt các dòng.
+  - sed -i s/pattern/replace_string/g file	: Lưu các thay đổi để thay thế chuỗi trong cùng một tệp.
+  - sed -n /pattern/p file                  : Tìm kiếm và in ra màn hình.
   
+  Ví dụ: 
+  - Xóa từ dòng 3 trong file poem.txt
+  `` [root@test1 ~]# sed '3!d' poem.txt``
+  
+  - Chỉnh sửa đầu vào tập tin
+  ````
+  [root@test1 ~]# cat file.txt
+  Hello
+  Have a nice day
+  # thay đổi chữ 'e' đầu tiên của mỗi dòng thành 'E' 
+  [root@test1 ~]# sed 's/e/E/' file.txt
+  HEllo
+  HavE a nice day
+  # thay đổi chữ 'nice day' của mỗi dòng thành 'safe journey'
+  [root@test1 ~]# sed 's/nice day/safe journey/' file.txt
+  Hello
+  Have a safe journey
+  # thay đổi chữ 'e' thành 'E' và lưu văn bản thành tệp mới
+  [root@test1 ~]# sed 's/e/E/g' file.txt > out.txt
+  [root@test1 ~]# cat out.txt
+  HEllo
+  HavE a nicE day
+  ````
+  
+## AWK
+  
+Lệnh awk sử dụng để tìm kiếm và xử lý file text. Nó có thể tìm kiếm một hoặc nhiều file để xem các file có dòng nào bao gồm những pattern cần tìm kiếm và sau đó thực hiện những action. Cú pháp của lệnh awk như sau: 
+``awk pattern actions file``
+
+Trong đó:
+
+  - pattern: là những biểu thức chính quy
+  - actions: là những câu lệnh cần thực hiện
+  - file: file cần thực hiện lệnh awk
+
+### Cách lệnh awk hoạt động:
+
+  - Lệnh awk đọc file đầu vào theo từng dòng.
+  - Đối với mỗi dòng, nó sẽ khớp lần lượt với các pattern, nếu khớp thì sẽ thực hiện action tương ứng. Nếu không có pattern nào được so khớp thì sẽ không có action nào thực hiện.
+  - Cú pháp cơ bản làm việc với lệnh awk thì pattern hoặc action phải có 1 trong 2 không thể thiếu cả 2.
+  - Nếu không có pattern, awk sẽ thực hiện action đối với mỗi dòng của dữ liệu. Nếu không có action, awk sẽ mặc định in ra tất cả những dòng khớp với pattern đã cho.
+  - Mỗi câu lệnh trong phần action được phân tách nhau bởi dấu chấm phẩy.
+
+###Các chức năng của awk:
+**Xử lý trường** 
+Các ký hiệu: 
+  - $0: Chứa toàn bộ văn bản.
+  - $1: Chứa văn bản trường đầu tiên.
+  - $2: chứa văn bản trường thứ hai.
+  - $(2+3): Kết quả của các biểu thức được sử dụng, đưa ra trường thứ năm.
+  - NF: là một biến tích hợp có chứa số lượng các trường trong bản ghi hiện tại. Vì vậy $NF đưa ra trường cuối cùng và $(NF-1) sẽ đưa ra trường cuối cùng thứ hai.
+  
+````
+[root@test1 ~]# cat file.txt
+fruit   qty
+apple   42
+banana  31
+fig     90
+guava   6
+[root@test1 ~]# awk '{print $1}' file.txt
+fruit
+apple
+banana
+fig
+guava
+[root@test1 ~]# awk '{print $2}' file.txt
+qty
+42
+31
+90
+6
+````
+Tách trường từ một đầu vào
+````
+[root@test1 ~]# echo 'foo:123:bar:456' | awk -F: '{print $2}'
+123
+[root@test1 ~]# echo 'foo:123:bar:456' | awk -F: '{print $NF}'
+456
+[root@test1 ~]# echo 'foo:123:bar:456' | awk -F: '{print $1, $NF}'
+foo 456
+[root@test1 ~]# echo 'foo:123:bar:456' | awk -F: '{print $(NF-1)}'
+bar
+[root@test1 ~]# echo 'one;two;three;four' | awk -F';' '{print $2}'
+two
+````
+  
+**Phép so sánh**  
+````
+[root@test1 ~]# cat file1.txt
+500  Sanjay  Sysadmin   Technology  $7,000
+300  Nisha   Manager    Marketing   $9,500
+400  Randy   DBA        Technology  $6,000
+[root@test1 ~]# awk '$1 > 200' file1.txt
+500  Sanjay  Sysadmin   Technology  $7,000
+300  Nisha   Manager    Marketing   $9,500
+400  Randy   DBA        Technology  $6,000
+````
+
+**Cú pháp điều kiện**
+````
+[root@test1 ~]# cat file.txt
+fruit   qty
+apple   42
+banana  31
+fig     90
+guava   6
+[root@test1 ~]# awk '{
+         if($1 == "apple"){
+            print $2
+         }
+       }' file.txt
+42
+[root@test1 ~]# awk '{
+         if(NR==1 || $2<35){
+            print $0
+         }
+       }' file.txt
+fruit   qty
+banana  31
+guava   6
+````
+  
+**Lọc các kí tự** 
+
+````
+ [root@test1 ~]#cat file2.txt 
+Roses are red,
+Violets are blue,
+Sugar is sweet,
+And so are you.
+[root@test1 ~]# awk '/are/' file2.txt # Lọc các dòng chứa "are"
+Roses are red,
+Violets are blue,
+And so are you.
+[root@test1 ~]# awk '!/are/' file2.txt # Lọc các dòng không chứa "are"
+Sugar is sweet,
+[root@test1 ~]# awk '/are/ && !/so/' file2.txt ## Lọc các dòng chưa "are" và không chứa "so"
+Roses are red,
+Violets are blue,
+[root@test1 ~]# awk '/^[ab]/' file.txt # Lọc các dòng có ký tự đầu là "a" hoặc "b"
+apple   42
+banana  31
+[root@test1 ~]# awk '/are/{print $NF}' file.txt # lọc các dòng có chứa "are" và in trường cuối cùng
+red,
+blue,
+you.          
+````
+**Lọc dựa trên số dòng**
+````
+[root@test1 ~]# awk 'NR==2' file2.txt
+Violets are blue,
+[root@test1 ~]# awk 'NR==2 || NR==4' file2.txt
+Violets are blue,
+And so are you.
+[root@test1 ~]# awk 'END{print}' file2.txt
+And so are you.
+[root@test1 ~]# awk 'NR==4{print $3}' file.txt
+31
+````
+**Thay thế** 
+           
+Sử dụng hàm ``sub`` chuỗi để thay thế lần xuất hiện đầu tiên. Sử dụng ``gsub`` để thay thế tất cả các lần xuất hiện.
+           
+````
+[root@test1 ~]# echo  ' 1-2-3-4-5 '  | awk ' {sub ("-", ":")} 1 '
+ 1:2-3-4-5
+[root@test1 ~]# echo  ' 1-2-3-4-5 '  | awk ' {gsub ("-", ":")} 1 '
+ 1:2:3:4:5
+[root@test1 ~]# echo '1-2-3-4-5' | awk '{n=gsub("-", ":"); print n} 1'
+4
+1:2:3:4:5
+[root@test1 ~]# echo '1-2-3-4-5' | awk '{gsub(/[^-]+/, "abc")} 1'
+abc-abc-abc-abc-abc
+[root@test1 ~]# echo 'one;two;three;four' | awk -F';' '{gsub("e", "E", $3)} 1'
+one two thrEE four
+````
+
 # Tài liệu tham khảo 
 https://blogd.net/linux/
 
 https://vietnamtutor.com/kham-pha-command-line-tren-linux-phan-3-xu-ly-text-bang-filter-trong-linux-cat-join-paste-sort-head-tail-wc/
-
 https://hocdevops.com/commands/lenh-cut-trong-linux/#Cach_su_dung
 
 LPIC-1
