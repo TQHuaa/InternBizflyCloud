@@ -125,6 +125,8 @@ Giống như lệnh cat, Nhưng in ngược lại các dòng của file1.txt, t�
 
 # Tài liệu tham khảo 
 https://blogd.net/linux/cach-dung-lenh-sort-uniq-paste-join-split/#4-l%E1%BB%87nh-split
+
 https://vietnamtutor.com/kham-pha-command-line-tren-linux-phan-3-xu-ly-text-bang-filter-trong-linux-cat-join-paste-sort-head-tail-wc/
+
 LPIC-1
-LPIC-1
+
