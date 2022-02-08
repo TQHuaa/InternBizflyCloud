@@ -229,8 +229,61 @@ Lệnh ``wc`` cũng có tác dụng giống như lệnh ``cut`` nhưng xử lý 
   - -c	Hiển thị số lượng byte
   - -w	Hiển thị số lượng từ
 
+# Regular Expressions
+
+## GREP
+
+Lệnh grep dùng để hiển thị line chứa chuỗi kí tự trong file. Có thể chỉ định nhiều file hoặc nhiều đường dẫn của đối tượng cần tìm kiếm. Có thể thay đổi file hoặc nhiều đường dẫn bằng kết quả output từ các lệnh khác. Cú pháp của lệnh grep:
+
+``grep [OPTION] PATTERN [FILE...]``
+
+**Các Option chính:**
+  - grep [pattern] <filename>     	             : Tìm kiếm một pattern trong một tệp và in tất cả các dòng khớp.
+  - grep -v [pattern] <filename>	               : In tất cả các dòng không khớp với pattern.
+  - grep [0-9] <filename>	                       : In các dòng có chứa các số từ 0 đến 9.
+  - grep -C 3 [pattern] <filename>	             : In các dòng (số dòng được chỉ định ở trên và bên dưới mẫu) để khớp với pattern. Ở đây, số lượng dòng được chỉ định là 3.
+  - grep -e [pattern] .. -e [pattern] <filename> : Tìm kiếm nhiều chuỗi.
+  - -i : Tìm kiếm không phân biệt hoa thường.
+  - -n : Giới hạn số dòng đầu ra.
+  - -c : Đếm số lượng dòng khớp.
+  - -w : Tìm chính xác.
+  
+Ví dụ :  Tìm kiếm nhiều chuỗi bằng stdin, file  
+````
+[root@test1 ~]# cat file.txt
+Roses are red,
+Violets are blue,
+Sugar is sweet,
+And so are you.
+[root@test1 ~]# grep -e 'blue' -e 'you' file.txt
+Violets are blue,
+And so are you.
+[root@test1 ~]# cat file.txt
+red
+blue
+[root@test1 ~]# grep -if search.txt file.txt
+Roses are red,
+Violets are blue,
+````
+  
+## SED 
+
+Lệnh ``sed`` là công cụ xử lý văn bản mạnh mẽ và là một tiện ích UNIX lâu đời nhất và phổ biến nhất. Nó được sử dụng để sửa đổi nội dung của một tệp, thường đặt nội dung vào một tệp mới. Lệnh ``sed`` có thể lọc văn bản, cũng như thực hiện thay thế trong luồng dữ liệu. Với ``sed`` dữ liệu đầu vào được chuyển đến vùng làm việc (working space) để xử lý, sau khi xử lý xong kết quả được chuyển sang đầu ra.
+<img src="https://blogd.net/linux/su-dung-lenh-sed/img/lenh-sed.png" >
+*Nguồn trên ảnh*
+
+Thông thường lệnh sed hoạt động trên một luồng dữ liệu được đọc từ stdin hoặc một file văn bản. Cú pháp cơ bản của lệnh sed:
+``sed [OPTIONS] [SCRIPT]… [FILENAME]``
+
+  sed -e command filename	Chỉ định các lệnh chỉnh sửa tại dòng lệnh, hoạt động trên tệp và đưa đầu ra ra ngoài.
+  sed -f scriptfile filename	Chỉ định một scriptfile chứa lệnh sed, hoạt động trên tệp và đưa đầu ra ra ngoài.
+  sed s/pattern/replace_string/ file	Thay thế chuỗi đầu tiên xuất hiện trong mỗi dòng
+  sed s/pattern/replace_string/g file	Thay thế tất cả các lần xuất hiện trong mỗi dòng
+  sed 1,3s/pattern/replace_string/g file	Thay thế tất cả các lần xuất hiện chuỗi trong một loạt các dòng
+  sed -i s/pattern/replace_string/g file	Lưu các thay đổi để thay thế chuỗi trong cùng một tệp
+  
 # Tài liệu tham khảo 
-https://blogd.net/linux/cach-dung-lenh-sort-uniq-paste-join-split/#4-l%E1%BB%87nh-split
+https://blogd.net/linux/
 
 https://vietnamtutor.com/kham-pha-command-line-tren-linux-phan-3-xu-ly-text-bang-filter-trong-linux-cat-join-paste-sort-head-tail-wc/
 
