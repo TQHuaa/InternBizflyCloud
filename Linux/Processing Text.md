@@ -205,21 +205,29 @@ This is a filete
 Ví dụ: 
   - Ta có file test.txt 
 
-  ````245:789 4567    M:4540  Admin   01:10:1980
-  535:763 4987    M:3476  Sales   11:04:1978````
+  ````
+  245:789 4567    M:4540  Admin   01:10:1980
+  535:763 4987    M:3476  Sales   11:04:1978
+  ````
   
   Để hiển thị trường thứ nhất và thứ 3, ta dùng lệnh : 
   ``cut test.txt -f 1,3``
   
   Kết quả :
   ````
-  245:789    M:4540
+  245:789 M:4540
   535:763 M:3476
   ````
 
 ## WC
+Lệnh ``wc`` cũng có tác dụng giống như lệnh ``cut`` nhưng xử lý đến từ, byte hoặc dòng. Cú pháp :
+``wc [ OPTION ]... [ FILE ]...``
 
+**Các Option chính:**
 
+  - -l	Hiển thị số lượng dòng
+  - -c	Hiển thị số lượng byte
+  - -w	Hiển thị số lượng từ
 
 # Tài liệu tham khảo 
 https://blogd.net/linux/cach-dung-lenh-sort-uniq-paste-join-split/#4-l%E1%BB%87nh-split
