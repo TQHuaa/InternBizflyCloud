@@ -114,6 +114,7 @@ $ nl ContainsBlankLines.txt
 1
 2
 3
+````
 
 Giống như lệnh cat, Nhưng in ngược lại các dòng của file1.txt, từ dòng cuối cùng đến dòng đầu tiên. Cú pháp: 
 `` tac [OPTION]... [FILE]...``
