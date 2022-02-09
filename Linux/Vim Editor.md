@@ -1,3 +1,5 @@
+# Vim cơ bản
+
 ## Lời dẫn
 
 Các công cụ chỉnh sửa văn bản rất cần thiết khi sử dụng hệ điều hành Linux. Ta có thể sử dụng để tạo script, chỉnh sửa các file, ... Vì vậy, Linux cung cấp một vài công cụ chỉnh sửa văn bản rất hữu ích như: 
@@ -99,3 +101,109 @@ Các phím tắt vào chế độ Insert Mode (cần trở về chế độ Comm
 | : q | Thoát trình chỉnh sửa mà không ghi bộ đệm vào tệp. |
 | : q! | Thoát trình chỉnh sửa mà không ghi bộ đệm vào tệp (ghi đè
 sự bảo vệ). |
+
+# Vimtutor
+
+Phần này sẽ trình bày về *vimtutor*, một bản hướng dẫn cơ bản cho người sử dụng Vim. Vimtutor được chia thành 7 bài học với các chức năng chính của Vim: 
+ - Lesson 1 - Moving the Cursor, Editing A File, Exiting, Insertion, Deletion, Appending.
+ - Lesson 2 - Moving Cursor, Deletion and Undo.
+ - Lesson 3 - Replace, Delete.
+ - Lesson 4 - Moving, Search & Replace.
+ - Lesson 5 - Excute External Command.
+ - Lesson 6 - Copy && Some Options.
+ - Lesson 7 - Helper in VIM.
+
+## Lesson 1 - Moving the Cursor, Editing A File, Exiting, Insertion, Deletion, Appending.
+
+1.1 - Moving the Cursor (In Command Mode ESC) Di chuyển trỏ chuột trong VIM (Có thể dùng các phím mũi tên nhưng không khuyến khích)
+
+                            **k(up)** 
+                            ^                                  
+                            |                                               
+                 **h(left)** <--+--> **l(right)**                                             
+                            |                                              
+                            v                                             
+                          **j**(down)  
+                            
+1.2 - Opening and Exiting VIM
+
+Start vim from the shell prompt type
+``vim FILENAME (Hoăc vi FILENAME)``
+To Exit vim
+``:q!`` to trash all changes. ``:wq`` to save the changes.
+
+1.3 - Delete character at the cursor type: ``x``
+
+1.4 - ``i`` để insert before cursor. ``a`` để insert after cursor. ``A`` (``Shift a``) để append after the line.
+
+## Lesson 2 - Moving Cursor, Deletion and Undo.
+
+type ``de`` to delete to the end of current word. type ``dw`` to delete until the start of next word. type ``dd`` to delete the line.
+
+``de``,``dw``,``dd`` có thể dùng kèm với số để xóa nhanh nhiều từ, ví dụ ``d2w``, ``d3e``, ``2dd``…
+
+type ``d$`` to delete to the end of the line.
+
+type ``2w`` to move the cursor two words forward. type ``3e`` to move the cursor to the end of the third word forward. type ``0`` to move to the start of the line. type ``$`` to move to the end of the line. type ``b`` - opposite with ``w``
+
+type ``u`` to undo the last commands, ``U`` to fix a whole line. type ``Ctrl+R`` to redo the undo command.
+
+## Lesson 3 - Replace, Delete.
+
+Những lệnh liên quan đến deletion như ``x``, ``dd``, ``dw``, ``de``… đều được vim đưa nội dung đã xóa vào register (giống Clipboard vậy)… và bạn có thể dùng ``p`` để dán nội dung trong register vào nơi bạn muốn.
+
+``r`` để replace ký tự tại cursor.
+
+``ce`` và ``cw`` để replace từ hoặc phần còn lại của từ tại cursor. (``ce`` là kết hợp giữa ``de`` và ``i``)
+
+``c$`` là kết hợp giữa ``d$`` và ``i`` - Xóa phần còn lại của dòng.
+
+## Lesson 4 - Moving, Search & Replace.
+
+``Ctrl+G`` để biết thêm thông tin về File hiện hành: Tên file, vị trí hiện tại trong file (số dòng)
+
+``G`` (``shift G``) để di chuyển đến dòng cuối của file (tương tự ``:$``)
+
+``gg`` để di chuyển đến dòng đầu tiên của file (tương tự ``:0``)
+
+``:line_number`` để di chuyển đến dòng cụ thể trong File. (Tương tự việc gõ ``line_numer G`` - ``Shift G``)
+
+``/từ_cần_tìm`` - Tìm kiếm trong vim, cursor sẽ nhảy đến từ đầu tiên mà nó tìm thấy. ``n`` để di chuyển next, ``N`` để đến previous trong lúc tìm kiếm
+
+(nếu ``/từ_cần_tìm`` là đi tới thì ``?từ_cần_tìm`` là tìm kiếm quay lui.)
+
+``Ctrl+O`` to go back to where you came from.
+
+``Ctrl+I`` to go forward (ngược với ``Ctrl+O``)
+
+Matching parenthesis or bracket:
+
+Khi đặt cursor trên các ký tự như ``(``, ``[`` hoặc ``{`` và gõ command ``%`` thì cursor sẽ được nhảy đến phần đóng hoặc mở thẻ tương ứng với nó - rất hữu ích trong lập trình và trong lúc cấu hình hệ thống.
+
+``:s/old/new/g`` để Tìm kiếm và thay thế chuỗi ``old`` bằng chuỗi ``new``.
+
+Chỉ thị ``g`` cho phép thay thế toàn bộ ocurrences của từ đang tìm trong dòng hiện tại. (Bỏ chỉ thị ``g`` đi nếu chỉ muốn thay thế First occurrence).
+
+``:#,#s/old/new/g`` Search & Replace tại những dòng cụ thể.
+
+``:%s/old/new/g`` - Search & Replace mọi ocurrences trong toàn bộ nội dung của File.
+
+``:%s/old/new/gc`` Search & Replace mọi ocurrences trong toàn bộ nội dung của File nhưng có prompt để xác định muốn replace occurence đó hay không.
+
+## Lesson 5 - Excute External Command.
+
+``:!`` cho phép bạn nhập và thực thi external command (Các lệnh ngoài vim như lệnh của shell) trực tiếp trong VIM. (Rất hữu ích đối với Developer)
+
+``:w`` FILE_NAME - Giống Save As ở các Editor thông thường, Lưu lại File hiện tại với Tên khác.
+
+``v`` để chuyển sang Visual Selection mode, bạn có thể select nhiều dòng một cách trực quan trong mode này.
+
+``:r FILE_NAME`` để chèn nội dung của một file khác vào cursor.
+
+``:r !ls`` chèn output của lệnh ls vào cursor
+
+## Lesson 6 - Copy && Some Options.
+## Lesson 7 - Helper in VIM.
+ 
+
+# Tài liệu tham khảo
