@@ -47,21 +47,55 @@ Các phím tắt vào chế độ Insert Mode (cần trở về chế độ Comm
 ### Ở chế độ Command Mode
 | Lệnh  | Công dụng |
 | ------------- | ------------- |
-| h | Move cursor left one character. | 
-| l | Move cursor right one character. | 
-| j | Move cursor down one line (the next line in the text). | 
-| k | Move cursor up one line (the previous line in the text). | 
-| w | Move cursor forward one word to front of next word. | 
-| e | Move cursor to end of current word. | 
-| b | Move cursor backward one word. | 
-| ^ | Move cursor to beginning of line. | 
-| $ | Move cursor to end of line. | 
-| gg | Move cursor to the file’s first line. | 
-| G | Move cursor to the file’s last line. | 
-| nG | Move cursor to file line number n . | 
-| Ctrl+B | Scroll up almost one full screen. | 
-| Ctrl+F | Scroll down almost one full screen. | 
-| Ctrl+U | Scroll up half of a screen. | 
-| Ctrl+D | Scroll down half of a screen. | 
-| Ctrl+Y | Scroll up one line. | 
-| Ctrl+E | Scroll down one line. | 
+| h | Di chuyển con trỏ sang trái một ký tự. |
+| l | Di chuyển con trỏ sang phải một ký tự. |
+| j | Di chuyển con trỏ xuống một dòng (dòng tiếp theo trong văn bản). |
+| k | Di chuyển con trỏ lên một dòng (dòng trước trong văn bản). |
+| w | Di chuyển con trỏ về phía trước một từ trước từ tiếp theo. |
+| đ | Di chuyển con trỏ đến cuối từ hiện tại. |
+| b | Di chuyển con trỏ về phía sau một từ. |
+| ^ | Di chuyển con trỏ đến đầu dòng. |
+| $ | Di chuyển con trỏ đến cuối dòng. |
+| gg | Di chuyển con trỏ đến dòng đầu tiên của tệp. |
+| G | Di chuyển con trỏ đến dòng cuối cùng của tệp. |
+| nG | Di chuyển con trỏ đến dòng n. |
+| ZZ | Ghi bộ đệm vào tệp và thoát khỏi trình chỉnh sửa. |
+| Ctrl + B | Cuộn lên toàn màn hình. |
+| Ctrl + F | Cuộn xuống toàn màn hình. |
+| Ctrl + U | Cuộn lên nửa màn hình. |
+| Ctrl + D | Cuộn xuống một nửa màn hình. |
+| Ctrl + Y | Cuộn lên một dòng. |
+| Ctrl + E | Cuộn xuống một dòng. |
+
+
+### Ở chế độ Insert Mode
+| Lệnh  | Công dụng |
+| ------------- | ------------- |
+| a | Chèn văn bản sau con trỏ. |
+| A | Chèn văn bản vào cuối dòng văn bản. |
+| dd | Xóa dòng hiện tại. |
+| dw | Xóa từ hiện tại. |
+| i | Chèn văn bản trước con trỏ. |
+| I | Chèn văn bản trước khi bắt đầu dòng văn bản. |
+| o | Mở một dòng văn bản mới bên dưới con trỏ và chuyển sang chế độ chèn. |
+| O | Mở một dòng văn bản mới phía trên con trỏ và chuyển sang chế độ chèn. |
+| p | Dán văn bản đã sao chép vào sau con trỏ. |
+| P | Dán văn bản đã sao chép trước con trỏ. |
+| yw | Sao chép từ hiện tại. |
+| yy | Sao chép dòng hiện tại. |
+
+
+### Ở chế độ Ex Mode
+| Lệnh  | Công dụng |
+| ------------- | ------------- |
+| :! *command* | Thực thi shell *command* và hiển thị kết quả, nhưng không thoát khỏi trình chỉnh sửa. |
+| : r! *command* | Thực hiện shell *command* và đưa kết quả vào vùng đệm của trình soạn thảo. |
+| : r *file* |  Đọc nội dung *file* và đưa chúng vào vùng đệm của trình soạn thảo. |
+| : x | Ghi bộ đệm vào tệp và thoát khỏi trình chỉnh sửa. |
+| : wq | Ghi bộ đệm vào tệp và thoát khỏi trình chỉnh sửa. |
+| : wq! | Ghi bộ đệm vào tệp và thoát khỏi trình chỉnh sửa (ghi đè bảo vệ). |
+| : w | Ghi bộ đệm vào tệp và ở trong trình chỉnh sửa. |
+| : w! | Ghi bộ đệm vào tệp và ở trong trình chỉnh sửa (ghi đè bảo vệ). |
+| : q | Thoát trình chỉnh sửa mà không ghi bộ đệm vào tệp. |
+| : q! | Thoát trình chỉnh sửa mà không ghi bộ đệm vào tệp (ghi đè
+sự bảo vệ). |
