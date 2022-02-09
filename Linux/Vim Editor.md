@@ -117,13 +117,13 @@ Phần này sẽ trình bày về *vimtutor*, một bản hướng dẫn cơ b�
 
 1.1 - Moving the Cursor (In Command Mode ESC) Di chuyển trỏ chuột trong VIM (Có thể dùng các phím mũi tên nhưng không khuyến khích)
 
-                            **k(up)** 
+                            k(up)
                             ^                                  
                             |                                               
-                 **h(left)** <--+--> **l(right)**                                             
+                 h(left) <--+--> l(right)                                              
                             |                                              
                             v                                             
-                          **j**(down)  
+                            j (down)  
                             
 1.2 - Opening and Exiting VIM
 
@@ -203,7 +203,48 @@ Chỉ thị ``g`` cho phép thay thế toàn bộ ocurrences của từ đang t�
 ``:r !ls`` chèn output của lệnh ls vào cursor
 
 ## Lesson 6 - Copy && Some Options.
+
+``o`` - Open a line below the cursor and place you in Insert mode.
+
+``O`` - Open a line above the cursor and place you in Insert mode.
+
+``R`` - Nếu ``r`` có tác dụng replace từng ký tự thì ``R`` sẽ chuyển bạn sang hẳn Replace Mode. (Nhấn ESC để thoát Replace Mode nếu không cần)
+
+``y`` để copy nội dung của dòng vào register và ``p`` để dán. (Các lệnh liên quan đến Deletion như ``dw``, ``de``, ``dd``,``d$``…thực ra tương tự lệnh cut)
+
+``y`` kết hợp với Visual Mode ``v`` để select và copy highlighted text.
+
+``y`` đóng vai trò là operator như ``d``, nghĩa là bạn có thể kết hợp với số lượng ở trước ``2y``, ``3y`` để copy nhiều dòng, kết hợp với ``w``,``e``,``y`` - ``yw``, ``y2w``…
+
+ - ``:set ic`` - Set Option Ignore case cho các lệnh tìm kiếm
+
+ - ``:set ts=4`` - Set Tab indent = 4
+
+ - ``:set nu`` - Set hiển thị line number
+
+ - Để tắt option đã set, thêm tiền tố no, ví dụ: :set nonu
+
+ - ...
+
 ## Lesson 7 - Helper in VIM.
+
+Nếu gặp khó khăn trong quá trình sử dụng vim, nếu không nhớ lệnh này có ý nghĩa gì thì ta có thể mở help ngay trong vim. ``:help``, ``:help lệnh_cần_biết``
+
+``Ctrl+W`` để chuyển qua lại giữa các cửa sổ (Nếu ta Split vim thành nhiều panel)
+
+File cấu hình của vim là:
+
+``~/.vimrc`` - là nơi chứa các cấu hình của vim. Ta có thể edit file .vimrc và copy nội dung file vimrc_example.vim bằng lệnh:
+
+``:r $VIMRUNTIME/vimrc_example.vim``
+
+Nhắc lệnh trong vim:
+``:set nocp``
+
+Khi gõ một lệnh, Ta có thể nhấn ``Ctrl+D`` để hiển thị hết danh sách các lệnh bắt đầu bằng ký tự ta gõ, nhấn ``TAB`` để auto complete (tương tự như TAB trong Terminal của Linux).
  
 
 # Tài liệu tham khảo
+
+http://notes.viphat.work/vimtutor
+LPIC-1
