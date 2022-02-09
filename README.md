@@ -1,2 +1,2 @@
-# TrainningVCCloud
+# TrainingVCCloud
 Tìm hiểu về Linux 
