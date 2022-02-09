@@ -247,4 +247,5 @@ Khi gõ một lệnh, Ta có thể nhấn ``Ctrl+D`` để hiển thị hết da
 # Tài liệu tham khảo
 
 http://notes.viphat.work/vimtutor
+
 LPIC-1
