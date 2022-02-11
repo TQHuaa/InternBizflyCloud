@@ -1,1 +1,30 @@
 
+# Runlevels and the Initialization
+
+## Initialization (Init)
+
+Init chỉ là tên chung ám chỉ chương trình được Kernel chạy đầu tiên khi khởi động máy tính, giống như ta nói web server/HTTP server - chỉ là tên nói chung chung, còn chương trình cụ thể là NGINX, Apache2... Các phần mềm init phổ biến
+- SysV (có từ lâu, giờ ít được dùng)
+- Upstart (viết bởi Ubuntu, đã bị thay thế bằng Systemd do Debian (upstream của Ubuntu) quyết định chuyển đổi)
+- Systemd: chương trình init làm nhiều hơn những gì các init truyền thống thường làm -gây tranh cãi / chia rẽ trong cộng đồng Linux - nhưng hiện tại là Systemd được dùng chính thức tại nhiều OS phổ biến: Debian, Ubuntu 16.04 trở đi, (và Mint vì Mint là distro base trên Ubuntu), Fedora, ArchLinux ...
+- OSX có Launchd
+
+# Runlevels
+
+Là các nhóm chương trình được khởi chạy khi khởi động, level nhỏ hơn sẽ được ưu tiên chạy trước.
+
+Chỉ có 3 level tiểu chuẩn:
+- 0: halt (tắt máy)
+- 1: single user textmode
+- 6: reboot
+
+7 runlevel trên Ubuntu: 
+
+| ID | Description |
+|---|---|
+|0 | poweroff.target | 
+|1 | rescue.target | 
+|2,3,4 | multi-user.target |
+|5 | graphical.target |
+|6 | reboot.target |
+
