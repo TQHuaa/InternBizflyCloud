@@ -2,7 +2,7 @@
 
 NGINX là một web server mạnh mẽ mã nguồn mở. Nginx sử dụng kiến trúc đơn luồng, hướng sự kiện vì thế nó hiệu quả hơn Apache server. Nó cũng có thể làm những thứ quan trọng khác, chẳng hạn như load balancing, HTTP caching, hay sử dụng như một reverse proxy. Trong nhiều trường hợp, ta sẽ cần phải modify nginx để phù hợp với một số nhu cầu riêng. Bài viết này sẽ hướng dãn cài đặt Nginx từ trên mã nguồn của nhà phát triển.
 
-1. Chuẩn bị sẵn sàng cho máy chủ
+## Chuẩn bị sẵn sàng cho máy chủ
 
 Trước tiên, ta cần đảm bảo rằng các gói của bạn được cập nhật:
 
@@ -16,7 +16,7 @@ Tiếp theo, bạn cần đảm bảo rằng bạn có sẵn một trình biên 
 
 ![image](https://user-images.githubusercontent.com/79156398/154919025-2662d5d0-5154-4f58-96a6-e5ce2482277f.png)
 
-2. Tải xuống và cài đặt các phụ thuộc
+## Tải xuống và cài đặt các phụ thuộc
 
 Ta có thể sử dụng apt-get để xử lý:
 
@@ -24,7 +24,7 @@ Ta có thể sử dụng apt-get để xử lý:
 
 ![image](https://user-images.githubusercontent.com/79156398/154923316-72f867c7-726b-47c0-a109-20f77fba83ae.png)
 
-3. Tải xuống gói nguồn
+## Tải xuống gói nguồn
 
 Trước tiên, ta cần lên trang cung cấp mã nguồn(Trang chủ, Git,..) để tải bản nén của mã nguồn.
 
@@ -51,7 +51,7 @@ Kết quả
 
 ![image](https://user-images.githubusercontent.com/79156398/154924972-ec86b21d-c758-4326-b879-b14554906c37.png)
 
-5. Xây dựng
+## Xây dựng
 
 Có nhiều tùy chọn cấu hình có sẵn trong NGINX, bạn có thể sử dụng tùy theo nhu cầu của mình. Có nhiều mô-đun đi kèm với NGINX được cài đặt sẵn Nếu bạn không cần một mô-đun được xây dựng theo mặc định, bạn có thể tắt nó bằng cách đặt tên cho nó bằng --without-<MODULE-NAME>tùy chọn trên tập lệnh cấu hình, ví dụ:
 
@@ -89,3 +89,7 @@ tar -xvzf file.tar.gz
 cd into folder
 ./configure --prefix=/usr && make && make install
 ````
+
+## Tham khảo
+  
+https://www.alibabacloud.com/blog/how-to-build-nginx-from-source-on-ubuntu-20-04-lts_597793
