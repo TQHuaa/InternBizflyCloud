@@ -3,6 +3,7 @@
 Trước tiên, ta cần đảm bảo rằng các gói của bạn được cập nhật:
 
 ``apt-get update -y``
+
 ![image](https://user-images.githubusercontent.com/79156398/154907789-4cd2b574-6860-4201-9b5b-e9b7fe8e6b7f.png)
 
 Tiếp theo, bạn cần đảm bảo rằng bạn có sẵn một trình biên dịch. Chạy lệnh này để cài đặt build-essential:
@@ -29,6 +30,7 @@ Tiếp theo, chúng ta cần giải nén kho lưu trữ và cd (thay đổi thư
 tar -xvzf v2.23.0.tar.gz
 cd git-2.23.0/
 ````
+
 ![image](https://user-images.githubusercontent.com/79156398/154911576-3638ea5d-cfcd-421a-a9fa-84bbf19de6cf.png)
 
 7. Cài đặt Git
@@ -49,16 +51,19 @@ Tiếp theo, hãy xác minh rằng tất cả các phụ thuộc cần thiết �
 ``./configure --prefix=/usr``
 
 Kết quả 
+
 ![image](https://user-images.githubusercontent.com/79156398/154914912-b8b145f3-a53a-4857-8e8b-c6c468422805.png)
 
 Sau đó, chúng ta sẽ xây dựng mã nguồn:
 
 ``make all``
+
 ![image](https://user-images.githubusercontent.com/79156398/154917100-ce808a4e-a7b8-4d63-85e7-2601febbee3f.png)
 
 Bây giờ tất cả các tệp nhị phân đã được xây dựng, đã đến lúc cài đặt git:
 
 ``make install``
+
 ![image](https://user-images.githubusercontent.com/79156398/154917549-f27cae3f-9369-408c-abef-8452c70e94d5.png)
 
 Điều cuối cùng cần làm là xác minh rằng git đang hoạt động:
