@@ -79,7 +79,7 @@ Done! Ta khởi động nginx bằng lệnh này : ``nginx``
 
 Đầu ra sẽ giống như sau:
 
-![image](https://user-images.githubusercontent.com/79156398/154917597-ff5d59f9-12ea-4fba-b142-05cac2310041.png)
+![image](https://user-images.githubusercontent.com/79156398/154928880-4b523668-3928-40fd-b9de-a68649ed7a5a.png)
 
 Phiên bản ngắn gọn của các lệnh trên :
 
