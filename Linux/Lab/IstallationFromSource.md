@@ -1,74 +1,81 @@
+# Cài đặt Nginx từ source
+
+NGINX là một web server mạnh mẽ mã nguồn mở. Nginx sử dụng kiến trúc đơn luồng, hướng sự kiện vì thế nó hiệu quả hơn Apache server. Nó cũng có thể làm những thứ quan trọng khác, chẳng hạn như load balancing, HTTP caching, hay sử dụng như một reverse proxy. Trong nhiều trường hợp, ta sẽ cần phải modify nginx để phù hợp với một số nhu cầu riêng. Bài viết này sẽ hướng dãn cài đặt Nginx từ trên mã nguồn của nhà phát triển.
+
 1. Chuẩn bị sẵn sàng cho máy chủ
 
 Trước tiên, ta cần đảm bảo rằng các gói của bạn được cập nhật:
 
 ``apt-get update -y``
 
-![image](https://user-images.githubusercontent.com/79156398/154907789-4cd2b574-6860-4201-9b5b-e9b7fe8e6b7f.png)
+![image](https://user-images.githubusercontent.com/79156398/154918835-b0f58fe9-99a7-49c9-85a3-b87175bea325.png)
 
 Tiếp theo, bạn cần đảm bảo rằng bạn có sẵn một trình biên dịch. Chạy lệnh này để cài đặt build-essential:
 
 ``apt-get install build-essential -y``
 
+![image](https://user-images.githubusercontent.com/79156398/154919025-2662d5d0-5154-4f58-96a6-e5ce2482277f.png)
+
 2. Tải xuống và cài đặt các phụ thuộc
 
 Ta có thể sử dụng apt-get để xử lý:
 
-``apt install build-essential dh-autoreconf libcurl4-gnutls-dev libexpat1-dev gettext libz-dev libssl-dev -y``
+``sudo apt-get install build-essential libpcre3 libpcre3-dev zlib1g zlib1g-dev libssl-dev libgd-dev libxml2 libxml2-dev uuid-dev -y``
 
-![image](https://user-images.githubusercontent.com/79156398/154909444-11a0e5b5-1c1c-4419-9606-6a689c2bdd31.png)
+![image](https://user-images.githubusercontent.com/79156398/154923316-72f867c7-726b-47c0-a109-20f77fba83ae.png)
 
 3. Tải xuống gói nguồn
 
-``wget https://github.com/git/git/archive/refs/tags/v2.35.1.tar.gz``
+Trước tiên, ta cần lên trang cung cấp mã nguồn(Trang chủ, Git,..) để tải bản nén của mã nguồn.
 
-![image](https://user-images.githubusercontent.com/79156398/154909814-893e2fab-9602-4c7c-b616-86ce9a403f9a.png)
+![image](https://user-images.githubusercontent.com/79156398/154924022-ff1eaf0d-3cba-414b-afbc-8f84010fec70.png)
+
+Dùng lệnh wget để tải gói source từ trang chủ về.
+
+``wget http://nginx.org/download/nginx-1.20.0.tar.gz``
+
+![image](https://user-images.githubusercontent.com/79156398/154923858-5bd16883-87c7-4e62-bd7d-fdd068ffc5e9.png)
 
 Tiếp theo, chúng ta cần giải nén kho lưu trữ và cd (thay đổi thư mục) vào thư mục git mới:
 
 ````
-tar -xvzf v2.23.0.tar.gz
-cd git-2.23.0/
-````
+tar -xvzf nginx-1.20.0.tar.gz 
+cd nginx-1.20.0/
+```` 
 
-![image](https://user-images.githubusercontent.com/79156398/154911576-3638ea5d-cfcd-421a-a9fa-84bbf19de6cf.png)
-
-7. Cài đặt Git
-
-Bây giờ chúng ta đã giải nén gói của mình và sẵn sàng sử dụng, chúng ta cần cấu hình nó:
-
-``make configure``
-
-Ta sẽ thấy một đầu ra tương tự như sau:
-
-````
-GIT_VERSION = 2.23.0
-GEN configure
-````
-
-Tiếp theo, hãy xác minh rằng tất cả các phụ thuộc cần thiết để xây dựng gói đều có sẵn bằng cách chạy lệnh này:
+Bây giờ, hãy xác minh rằng tất cả các phụ thuộc cần thiết để xây dựng gói đều có sẵn bằng cách chạy lệnh này:
 
 ``./configure --prefix=/usr``
 
 Kết quả 
 
-![image](https://user-images.githubusercontent.com/79156398/154914912-b8b145f3-a53a-4857-8e8b-c6c468422805.png)
+![image](https://user-images.githubusercontent.com/79156398/154924972-ec86b21d-c758-4326-b879-b14554906c37.png)
 
-Sau đó, chúng ta sẽ xây dựng mã nguồn:
+5. Xây dựng
 
-``make all``
+Có nhiều tùy chọn cấu hình có sẵn trong NGINX, bạn có thể sử dụng tùy theo nhu cầu của mình. Có nhiều mô-đun đi kèm với NGINX được cài đặt sẵn Nếu bạn không cần một mô-đun được xây dựng theo mặc định, bạn có thể tắt nó bằng cách đặt tên cho nó bằng --without-<MODULE-NAME>tùy chọn trên tập lệnh cấu hình, ví dụ:
 
-![image](https://user-images.githubusercontent.com/79156398/154917100-ce808a4e-a7b8-4d63-85e7-2601febbee3f.png)
+``./configure --without-http_empty_gif_module``  
+  
+Sau khi hoàn tất cấu hình tùy chỉnh, bây giờ chúng ta có thể biên dịch mã nguồn NGINX bằng cách sử dụng lệnh sau:
 
-Bây giờ tất cả các tệp nhị phân đã được xây dựng, đã đến lúc cài đặt git:
+``make``
+
+![image](https://user-images.githubusercontent.com/79156398/154927891-f38aee24-0961-4a74-8f17-1d5ead5769fa.png)
+
+Bây giờ tất cả các tệp nhị phân đã được xây dựng, đã đến lúc cài đặt nginx:
 
 ``make install``
 
-![image](https://user-images.githubusercontent.com/79156398/154917549-f27cae3f-9369-408c-abef-8452c70e94d5.png)
+Kết quả 
+  
+![image](https://user-images.githubusercontent.com/79156398/154927999-78204d64-aaa9-4d4f-ab11-c213aac080c9.png)
+  
+Done! Ta khởi động nginx bằng lệnh này : ``nginx``  
 
 Điều cuối cùng cần làm là xác minh rằng git đang hoạt động:
 
-``git --version``
+``nginx -V``
 
 Đầu ra sẽ giống như sau:
 
@@ -77,8 +84,8 @@ Bây giờ tất cả các tệp nhị phân đã được xây dựng, đã đ�
 Phiên bản ngắn gọn của các lệnh trên :
 
 ````
-wget file
-tar -xvzf file
+wget link [output]
+tar -xvzf file.tar.gz
 cd into folder
-./configure && make && make install
+./configure --prefix=/usr && make && make install
 ````
