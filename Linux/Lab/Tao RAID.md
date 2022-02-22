@@ -83,9 +83,56 @@ Chọn ``t`` để thay đổi kiểu phân vùng. Nếu không rõ, ta có th�
 
 Chọn ``w`` để lưu. Hoàn thành tạo phân vùng RAID.
 
+Sau khi tạo xong chúng ta chạy lệnh bên dưới kiểm tra xem phân vùng được tạo hay chưa.
+
+``fdisk -l | grep sd``
+
+![image](https://user-images.githubusercontent.com/79156398/155049117-3ddaefe1-805f-4b49-b3e9-92b7cef3101a.png)
+
+## Kiểm tra phân vùng RAID
+
+Có 2 cách cơ bản để kiểm tra phân vùng RAID: 
+
+Cách 1: Kiểm tra bằng file /proc/mdstat
+
+``cat /proc/mdstat``
+
+Cách 2: Kiểm tra bằng mdadm
+
+``mdadm -examine /dev/sd[a-z]``
+
 ## Tạo RAID 0
 
+Bây giờ, ta sẽ tạo RAID 0 sử dụng hai ổ đĩa sdg và sdf. Trước khi tạo RAID 0, ta chạy lệnh mdadm để kiểm tra xem đĩa sdg và sdf hiện có đang tham gia RAID không.
+
+![image](https://user-images.githubusercontent.com/79156398/155049985-b8352d2a-cc68-4b3c-884f-50f6a01e1705.png)
+
+Tiếp theo, ta chạy lệnh ``mdadm`` tạo RAID0 :
+
+ ``mdadm -C /dev/md0 -l raid0 -n 2 /dev/sd[fg]1``
+ 
+ ![image](https://user-images.githubusercontent.com/79156398/155050545-1703dab3-654f-437f-8d3e-47ada4169a93.png)
+
+Trong đó:
+
+-C: Tạo RAID mới.
+-l: Level của RAID.
+-n: Số thiết bị RAID.
+
+Kiểm tra lại trong ``/proc/mdstat`` : 
+
+![image](https://user-images.githubusercontent.com/79156398/155051199-9e064aa4-9afe-4a3f-83a5-40d87c0b90f3.png)
+
 ## Tạo RAID 1
+
+Ta sẽ tạo RAID 1 trên 2 đĩa sdb và sdc. Đầu tiên, chạy lệnh kiểm tra xem đĩa đang tham gia RAID không. Sau đó tạo phân vùng RAID cho 2 đĩa như đã hướng dẫn ở trên.
+
+![image](https://user-images.githubusercontent.com/79156398/155052304-c371515b-29a4-4f20-a6dd-091c471b7046.png)
+
+Tạo RAID và kiểm tra.
+
+![image](https://user-images.githubusercontent.com/79156398/155052992-ef53d5c1-6d4d-49bc-ba2d-32d8c9d44e36.png)
+
 
 ## Tạo RAID 10
 
