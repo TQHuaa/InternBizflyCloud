@@ -1,4 +1,6 @@
- ### LVM là gì ?
+## Đặt câu hỏi
+
+### LVM là gì ?
 
 **LVM** (Logical Volume Management) là một công nghệ giúp quản lý các thiết bị lưu trữ dữ liệu trên các hệ điều hành Linux. Công nghệ này cho phép người dùng gom nhóm các ổ cứng vật lý lại và phân tách chúng thành những phân vùng nhỏ hơn nhằm tạo các phân vùng ảo Logical Volume để tăng khả năng lưu trữ.
 
