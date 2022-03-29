@@ -32,8 +32,8 @@
 	9. [Snapshot]()
 
 	10. [Các cơ chế cấp phát]()
-		- (Thick Provising]()
-		- (Thin Provising]()
+		- [Thick Provising]()
+		- [Thin Provising]()
 	
 	11. . [Thin - provisioning]()
 
