@@ -10,6 +10,8 @@ LVM đặc biệt hữu ích khi chúng ta sử dụng gần hết lưu lượng
 
 ### Một số thuật ngữ trong LVM
 
+Trong LVM, có một vài thuật ngữ mà chúng ta phải biết vì chúng sẽ được sử dụng rất nhiều. Và sau khi giới thiệu cùng các ký hiệu viết tắt của các thuật ngữ. Từ các bài viết sau mình sẽ sử dụng các ký hiệu viết tắt cho nhanh nên các bạn đọc chú ý phần này nhé.
+
 - **Physical Volume – PV**: Là các partition trên ổ cứng vật lý. 
 - **Volume Group – VG**: là tập hợp các PV thành một kho lưu trữ chung.
 - **Logical Volume – LV**: là các vùng lưu trữ được tạo ra từ VG bằng cơ chế device mapper.  
