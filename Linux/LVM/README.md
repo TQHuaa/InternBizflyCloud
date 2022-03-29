@@ -15,16 +15,25 @@
 	2. [Thao tác tạo](https://github.com/TQHuaa/InternBizflyCloud/blob/main/Linux/LVM/LVM-1.md#c%C3%A1c-ch%E1%BB%A9c-n%C4%83ng-ch%C3%ADnh-c%E1%BB%A7a-lvm)
 
 	3. [Thay đổi kích thước]()
+	
+	4. [Các cơ chế ánh xạ]()
+		- [Linear]()
+		- [Strip]()
+		- [Mirror]()
 
-	4. [Stripting]()
+	5. [Stripting]()
 
-	5. [Mirror]()
+	6. [Mirror]()
 
-	6. [Migrating]()
+	7. [Migrating]()
 
-	7. [Backup]()
+	8. [Backup]()
 
-	8. [Snapshot]()
+	9. [Snapshot]()
 
-	9. [Thin - provisioning]()
+	10. [Các cơ chế cấp phát]()
+		- (Thick Provising]()
+		- (Thin Provising]()
+	
+	11. . [Thin - provisioning]()
 
