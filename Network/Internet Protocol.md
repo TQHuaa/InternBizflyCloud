@@ -153,3 +153,105 @@ Tuy nhiên việc phân chia cứng thành các lớp (A, B, C, D, E) làm hạn
 ### Các hạn chế của IPv4
 
 Hai hạn chế lớn nhất của IPv4 chính là bảo mật và sự thiếu hụt địa chỉ. Ở thời điểm mới được tạo ra vào thế kỷ trước. IPv4 chỉ được chú trọng vào việc thiết lập kết nối, bỏ qua bảo mật. Khối lượng địa chỉ với 32 bit, tương đương khoảng 4 tỉ địa chỉ là vô cùng thoải mái vào thời điểm đó với số ít các phòng nghiên cứu, cơ quan quân sự kết nối tới. Nhưng với tốc độ phát triển chóng mặt, số lượng các thiết bị mạng tăng vọt. Sự bùng nổ Internet đến thời điểm hiện tại khiến cho tài nguyên Ipv4 được sử dụng gần như là cạn kiện. Chính vì những hạn chế như vậy. Các nhà nghiên cứu đã cho ra đời giao thức IP thế hệ mới. IPv6!
+
+## IPv6
+
+**IPv6 hay Internet Protocol version 6** là phiên bản phổ biến thứ 2 sau IPv4. Nó được coi là tương lai của giao thức IP khi mà trong hoàn cảnh IPv4 nảy sinh nhiều hạn chế. Mà tại sao lại không phải là IPv5? Điều gì đã xảy ra với IPv5? Lý do chính mà IPv5 bị loại bỏ là do nó cũng sử dụng 32 bit để biểu diễn địa chỉ - nhược điểm lớn nhất của IPv4. IPv6 có tới 128 bit biểu diễn địa chỉ, tức là một số lượng địa chỉ IP rất lớn lên tới ~340 x 10^36. Đây là một con số mà ở thời điểm hiện tại thì nó gần như là vô hạn. 
+
+![image](https://user-images.githubusercontent.com/79156398/163725133-ab808f1a-ab5f-40e7-895b-7501a3eb249c.png)
+
+Cấu trúc Frame của IPv6 cũng có một số thay đổi so với IPv4. Lưu ý rằng tiêu đề IPv6 có ít trường hơn, điều này làm cho nó hiệu quả hơn và xử lý nhanh hơn. Một ưu điểm lớn khác là độ dài tiêu đề là kích thước cố định 40 byte, so với kích thước độ dài thay đổi của tiêu đề IPv4.
+
+Trong đó : 
+
+- **Version** :
+Trường **Version** là số nhận dạng phiên bản của giao thức IP. Nó được đặt thành 4-bit trong IPv4 và 6-bit trong IPv6.
+- **Traffic Class** : Thực hiện chức năng tương tự trường "Service Type" của địa chỉ IPv4. Trường này được sử dụng để biểu diễn mức ưu tiên của gói tin. Node gửi gói tin cần thiết lập giá trị phân loại độ ưu tiên nhất định cho gói tin IPv6, sử dụng trường Traffic Class.
+- **Flow Label** : Trường Flow Label sử dụng để định danh một dòng dữ liệu giữa nguồn và đích. Flow Label được sử dụng trong IPv6 sẽ hỗ trợ tốt hơn thực thi QoS.
+> Khái niệm Flow : 
+- **Payload Length** : Độ dài Payload
+- **Next Header** : Tương tự trường Protocol trong IPv4.
+
+Một số giá trị phổ biến nhất được hiển thị trong bảng dưới đây.
+
+| Giá trị Next Header (bằng hex) | Giao thức |
+| -- | -- |
+|6|TCP|
+|11|UDP|
+|2F|GRE|
+|32|ESP|
+|3A|ICMPv6|
+|3B|None|
+|59|OSPF|
+
+- **Hop Limit** : Tương tự trường **Time to Live** trong IPv4
+- **Source Address** : Địa chỉ nguồn
+- **Destination Address**: Địa chỉ đích
+
+### Biểu diễn địa chỉ IPv6
+
+Địa chỉ IPv6 dài 128 bit, được chia làm 8 nhóm, mỗi nhóm gồm 16 bit, được ngăn cách với nhau bằng dấu hai chấm “:”. Mỗi nhóm được biểu diễn bằng 4 số hexa. Ví dụ: 
+~~~
+FEDC:BA98:768A:0C98:FEBA:CB87:7678:1111  
+1080:0000:0000:0070:0000:0989:CB45:345F
+~~~
+
+![image](https://user-images.githubusercontent.com/79156398/163725101-13e9ea14-6f80-4c12-813a-23c8e8a54e8d.png)
+
+8 octet chia làm 3 phần: 3+1+4 (Siteprefix + Subnet ID + Interface ID)
+
+### Quy tắc viết rút gọn
+
+Những địa chỉ IPv6 lớn, khả năng cung cấp địa chỉ cho nhiều node và cung cấp cấu trúc phân cấp linh hoạt, nhưng nó không dễ để viết ra. Vì vậy cần có 1 số nguyên tắc để nhằm rút ngắn lại cách biểu diễn địa chỉ IPv6. Sau đây là các quy tắc để rút gọn IPv6:  
+
+- Cho phép bỏ các số 0 nằm trước mỗi nhóm (octet).  
+- Thay bằng số 0 cho nhóm có toàn số 0.  
+- Thay bằng dấu ``::`` cho các nhóm liên tiếp nhau có toàn số 0.
+
+Ví dụ về nén địa chỉ IPv6:  
+Cho một địa chỉ: ``1080:0000:0000:0070:0000:0989:CB45:345F``
+Dựa theo các quy tắc đã nêu trên, có thể nén địa chỉ IP trên như sau: ``1080::70:0:989:CB45:345F`` hoặc ``1080:0:0:70::989: CB45:345F``
+
+Chú ý: Dấu ``::`` chỉ sử dụng đƣợc 1 lần trong toàn bộ địa chỉ IPv6 (nhiều dấu ``::`` có thể gây ra sự nhầm lẫn hoặc không thể biết đúng vị trí của các octet trong địa chỉ IPv6).
+
+### Biểu diễn của Address Prefixes
+
+Prefix của địa chỉ IPv6 được biểu diễn tương tự với kí hiệu IPv4 CIDR. IPv6 prefix được biểu diễn như sau: ``**IPv6-address/prefix-length**``
+
+Trong đó,**IPv6-address** là bất kì địa chỉ có giá trị, **Prefix-length** là số bit liền kề nhau được bao gồm trong prefix.
+
+Ví dụ: Sau đây là quy tắc biểu diễn cho 56 bit prefix 
+``200F00000000AB:`` 
+``200F::AB00:0:0:0:0/56``  
+``200F:0:0:AB00::/56``
+
+Chú ý với địa chỉ IPv6, kí hiệu ``::`` được sử dụng 1 lần duy nhất trong mỗi sự biểu diễn. Điều quan trọng nên phải nói lần 2.
+
+Theo sau là các cách biểu diễn sai của 56 bit prefix:  
+``200F:0:0:AB/56``
+``200F::AB00/56``
+``200F::AB/56``
+
+Cách biểu diễn đầu tiên là không hợp lệ bởi vì các số 0 theo sau trong vòng một trường 16-bit (``AB00``) bị mất, và địa chỉ không đủ chiều dài hợp lệ. Địa chỉ IPv6 trên bên trái của dấu gạch chéo ``/`` phải là một địa chỉ IPv6 có chiều dài đầy đủ hoặc được nén hợp lệ. Cách biểu diễn thứ hai và thứ ba là địa chỉ IPv6 được nén hợp lệ nhưng nó không giãn ra thành địa chỉ chính xác. Thay vì ``200F:0000:0000:AB00:0000:0000:0000:0000`` nó sẽ giãn thành ``200F:0000:0000:0000:0000:0000:0000:AB00`` và ``200F:0000: 0000:0000:0000:0000:0000:00AB`` tương ứng.
+
+### Phân loại địa chỉ IPv6
+
+Có 3 loại địa chỉ IPv6 :
+
+- **Unicast**
+- **Multicast**
+- **Broadcast**
+
+### Lợi thế của IPv6
+
+Do thiết kế, IPv6 sẽ mang lại cho ta những lợi ích sau: 
+- Loại bỏ hoàn toàn giao thức NAT.
+- Khôi phục lại nguyên lý kết nối end-end của internet.
+- Tăng dung lượng địa chỉ IP.
+- Cấu trúc định tuyến tốt hơn do IPV6 được thiết kế hoàn toàn phân cấp.
+- Quản trị TCP/IP tốt hơn do không cần DHCP và các cấu hình thủ công.
+- Hỗ trợ bảo mật tốt hơn.
+
+---> Giảm độ phức tạp, tăng tính bảo mật.
+ 
+ Trên đây là một số kiến thức về giao thức **Internet Protocol** mà mình đã tổng hợp. Cảm ơn các bạn đã đọc bài và hãy ``Pull request`` nếu bài viết có lỗi gì nhé!
