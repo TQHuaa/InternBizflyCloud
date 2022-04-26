@@ -1,0 +1,232 @@
+# Traffic Control in Linux
+
+## Khái niệm
+Traffic Control còn có tên QoS (Quality of Service – chất lượng dịch vụ truyền thông) là cách thức điều khiển độ ưu tiên traffic của hệ thống mạng. QoS có chức năng cung cấp lưu lượng băng thông và truyền tín hiệu đến các tập tin truyền thông đa phương tiện (media) trong khoảng thời gian trễ tối thiểu. Trong hệ thống mạng, QoS sẽ thực hiện các hoạt động trên tất cả các tầng và mỗi tầng thực hiện những chức năng khác nhau.
+
+## Các kỹ thuật QoS
+QoS bao gồm một số các kỹ thuật như: Classification (Phân loại), Marking(Đánh dấu), Queuing, Policing và Shapping(Định hình).
+
+- **Classification** : Sắp xếp, phân loại gói tin, phân loại theo mức độ ưu tiên,...
+- **Marking** : Đánh dấu gói tin, sử dụng DSCP, thay đổi các trường như TOS (type of service).
+- **Queuing** : Đặt lưu lượng mạng vào một hàng đợi để kiểm soát lưu lượng như bandwitdh, mpu, mtu,...
+- **Policing** : Chặn hoặc cho phép gói tin đối với lưu lượng vào.
+- **Shaping**: Delay gói tin nhằm giữ lưu lượng truyền qua ở một mức độ nhất định.
+
+## Qdisc
+
+**Qdisc(Queueing Disciplines)** là một hệ thống bao gồm một hoặc nhiều hàng đợi. Các gói tin sẽ được đi qua các hàng đợi đó là tùy vào mục đích mà các qdisc sẽ xử lý theo nhiều cách khác nhau. Qdisc là thành phần chủ yếu và cốt lõi để xây dựng nên hệ thống traffic control của Linux. Có **2 loại Qdisc** là : **Qdisc Classful** và **Qdisc Classless**.
+
+- **Qdisc Classful:** là qdisc có thể chứa *class* bên trong và cung cấp một *handle* để đính kèm *filter*. Các khái niệm này sẽ được nhắc đến ở phần tiếp theo. Có thể kể đến một số loại phổ biến như: CBQ, HTB, PRIO qdisc,..
+
+- **Qdisc Classless:** là qdisc đơn lẻ, không chứa thêm class hay bất cứ thành phần con nào bên trong. Một số loại qdisc: FIFO(pfifo_pfifo), pfifo_fast, TBF, SFQ, ...
+
+### p_fifo_fast qdisc
+Sử dụng 3 hàng đợi kết hợp với chỉ số ưu tiên để phân loại gói tin nào vào hàng đợi nào.
+	==> dùng chủ yếu cho một số lưu lượng cần ưu tiên.
+
+### Token Bucket Filter qdisc
+Sử dụng một hàng đợi kết hợp với các token được sản sinh với một khối lượng trong một khoảng thời gian nhất định, nếu token không đủ, gói tin sẽ đợi token sinh hoặc hủy, nếu token thừa, chúng sẽ tích trữ trong bucket.
+	==> chủ yếu dùng để định hình lưu lượng, limit bandwidth.
+
+### Stochastic Fairness Queueing
+Sử dụng nhiều hàng đợi FIFO cho các luồng và đảm bảo mỗi luồng được gửi dữ liệu lần lượt.
+	==> Sử dụng khi không muốn luồng nào chiếm quá nhiều tài nguyên mạng.
+
+### Hierarchical Token Bucket
+Sử dụng các hàng đợi kết hợp token như TBF, có thể gắn filter tạo nên khả năng kiểm soát cực kỳ phức tạp, cùng với cơ chế vay mượn để mở rộng bandwidth một cách linh hoạt.
+	==> Sử dụng khi cần nhiều hơn là định hình lưu lượng, limit bandwitdh.
+
+### PRIO qdisc
+Sử dụng cơ chế có chỉ số ưu tiên và priomap để phân loại các gói tin, kết hợp với các bộ lọc để phân loại mức cao hơn.
+	==> Sử dụng khi có lưu lượng cần ưu tiên và cần làm nhiều hơn là phân loại. 
+
+Vị trí các qdisc ở ngay trước và sau các interface network. Tùy vào chiều của dữ liệu, qdisc lại có 2 khái niệm nữa là : **ingress** và **egress**
+
+- **ingress:** Đối với dữ liệu vào interface network (Inbound Traffic). 
+
+- **egress:** Đối với dữ liệu đi ra khỏi interface network (Outbound Traffic). Qdisc egress thường được gọi là **root qdisc**.
+
+## Class
+
+Class là khái niệm để định hình cấu trúc cha con của các classful qdisc. Lớp ở cấp độ nhỏ nhất được gọi là *leaf class*. Class có thể đính kèm các filter để tăng thêm khả năng xử lý cho qdisc.
+
+## Filter
+
+Filter là thành phần phức tạp nhất trong hệ thống điều khiển lưu lượng Linux. Vai trò đơn giản và rõ ràng nhất của bộ lọc là phân loại các gói. Bộ lọc Linux cho phép người dùng phân loại các gói tin vào một hàng đợi đầu ra với một số bộ lọc khác nhau hoặc một bộ lọc duy nhất. Bộ lọc có thể được gắn thẳng vào qdisc classful hoặc các classes. Tuy nhiên gói được xếp hàng luôn đi vào qdisc *root* trước tiên.
+
+## Một số khái niệm liên quan 
+
+### Handle 
+Sử dụng để chỉ định loại qdisc được sử dụng của qdisc. Luôn chứa hai thông số.
+
+- *major*: Thường dùng để phân biệt các lớp parents và lớp child. Số này không quan trọng với kernel nên người dùng có thể đánh số tùy ý.
+- *minor*: Dùng để phân biết các class và qdisc. Minor là `:0` (viết tắt là `:`) được coi là qdisc. Còn khác `0` thì được coi là class.
+
+![image](https://user-images.githubusercontent.com/79156398/165230155-055ba195-48cb-49ed-9e2a-a078aaaa373d.png)
+
+### Policer 
+Là một hành động được chỉ định bởi filter.
+> This elemental mechanism is only used in Linux traffic control as part of a filter. A policer calls one action above and another action below the specified rate. Clever use of policers can simulate a three-color meter.
+Although both policing and shaping are basic elements of traffic control for limiting bandwidth usage a policer will never delay traffic. It can only perform an action based on specified criteria. 
+
+### Classifier
+Là thành phần quyết định trong một classful qdisc, class nào sẽ được quyết định để cho packet đi qua.
+
+### Work−Conserving 
+Các qdisc ở dạng này sẽ gửi gói tin ngay khi nó có thể gửi đi.
+
+### non-Work−Conserving
+Các qdisc dạng này sẽ hold gói tin lại một thời gian cho mục đích limit bandwidth.
+
+## Công cụ tc
+``tc`` là một bộ công cụ cho phép người dùng thực hiện các kỹ thuật QoS đối với các gói tin trên hệ thống LINUX. 
+
+Cách sử dụng: 
+````
+tc [ OPTIONS ] OBJECT { COMMAND | help }
+where  OBJECT := { qdisc | class | filter }
+       OPTIONS := { -s[tatistics] | -d[etails] | -r[aw] }
+````
+
+Cách sử dụng cụ thể có lẽ sẽ dễ hiểu hơn khi ta nhìn vào các ví dụ và phân tích thành phần câu lệnh của chúng.
+
+**Ví dụ dùng qdisc**
+
+````
+[root@tqhua]# tc qdisc add      \ (1)
+>                  dev eth0     \ (2)
+>                  root         \ (3)
+>                  handle 1:0   \ (4)
+>                  htb            (5)
+      
+````
+Trong đó :
+
+(1) - Lệnh tạo qdisc
+
+(2) - Chỉ định interface network chứa qdisc
+
+(3) - Chỉ định loại qdisc ingress hay egress
+
+(4) - Thành phần bắt buộc khi tạo qdisc. Cặp số *major*:*minor* có major tùy chọn, minor luôn được đặt bằng 0. Có thể viết là *major*:0 hoặc *major*:
+
+(5) - Chỉ định loại qdisc được tạo
+
+**Ví dụ dùng class**
+````
+[root@tqhua]# tc class add      \ (1)
+>                  dev eth0     \ (2)
+>                  parent 1:1   \ (3)
+>                  classid 1:6  \ (4)
+>                  htb          \ (5)
+>                  rate 256kbit \ (6)
+>                  ceil 512kbit   (7)
+````
+
+Trong đó : 
+
+(1) - Lệnh tạo class 
+
+(2) - Chỉ định interface network chứa class
+
+(3) - Chỉ định lớp parent chứa class
+
+(4) - Chỉ định class với classid *major*:*minor*
+
+(5) - Chỉ định loại qdisc được gắn vào class
+
+(6)(7) - Chỉ định các tùy chọn của qdisc	
+
+**Ví dụ dùng filter**
+
+````
+[root@leander]# tc filter add               \ (1)
+>                  dev eth0                 \ (2)
+>                  parent 1:0               \ (3)
+>                  protocol ip              \ (4)
+>                  prio 5                   \ (5)
+>                  u32                      \ (6)
+>                  match ip port 22 0xffff  \ (7)
+>                  match ip tos 0x10 0xff   \ (8)
+>                  flowid 1:6               \ (9)
+>                  police                   \ (10)
+>                  rate 32000bps            \ (11)
+>                  burst 10240              \ (12)
+>                  mpu 0                    \ (13)
+>                  action drop/continue       (14)
+````
+
+Trong đó: 
+
+(1) 	Lệnh tạo filer 
+
+(2) 	Chỉ định interface network chứa filter
+
+(3) 	Chỉ định lớp mẹ
+
+(4)	Chỉ định protocol để xử lý. ``protocol ip`` là bắt buộc
+
+(5)	Chỉ định tham số ưu tiên để so với các filter khác
+
+(6)	Classifier u32, là cần thiết với các lệnh tc filter
+
+(7)(8)	Chỉ định các tham số của classifier
+
+(9)	Chỉ định lớp đích hoặc qdisc đích mà filter sau khi lọc sẽ gửi gói tin đến
+
+(10)	Chỉ định police
+
+(11)(12)Chỉ định các tham số của qdisc được trỏ đến ở phần (9)
+
+(13)	The minimum policed unit
+
+(14)	Hành động chỉ ra những gì nên được thực hiện nếu tỷ lệ dựa trên các thuộc tính của chính sách. Từ đầu tiên chỉ định hành động cần thực hiện nếu lệnh chính sách đã bị vượt quá. Từ thứ hai chỉ định hành động để thực hiện khác
+
+### Một số câu lệnh tc thường dùng
+
+````
+# LIMIT OUTBOUND use tbf
+tc qdisc add dev ens37 root tbf rate 8mbit latency 50ms burst 8500
+
+# LIMIT OUTBOUND use HTB 
+tc qdisc add dev ens37 root handle 1: htb default 1
+tc class add dev ens37 parent 1: classid 1:1 htb rate 512kbit ceil 1mbit burst 521k
+
+# LIMIT OUTBOUND of specific host use HTB and filter 
+tc qdisc add dev ens37 root handle 1: htb default 2
+tc class add dev ens37 parent 1: classid 1:1 htb rate 512kbit burst 521k
+tc filter add dev ens37 protocol ip prio 16 u32 match ip dst 172.16.15.100 flowid 1:1
+tc class add dev ens37 parent 1: classid 1:2 htb rate 10mbit burst 10m
+
+tc qdisc add dev ens37 root handle 1: htb default 2
+tc class add dev ens37 parent 1: classid 1:1 htb rate 512kbit burst 100k
+tc filter add dev ens37 protocol ip prio 16 u32 \
+match ip dst 172.16.15.100 flowid 1:1
+tc class add dev ens37 parent 1: classid 1:2 htb rate 10mbit burst 10m
+
+# host priority based on PRIO qdisc
+tc qdisc add dev ens37 root handle 1: prio
+tc qdisc add dev ens37 parent 1:1 handle 10: tbf rate 2mbit latency 200ms burst 2m
+tc qdisc add dev ens37 parent 1:2 handle 20: sqf
+tc qdisc add dev ens37 parent 1:3 handle 30: sqf
+tc filter add dev ens37 protocol ip prio 16 u32 match ip dst 172.16.15.100 flowid 1:1 
+
+# Borrow bandwidth with HTB
+tc qdisc add dev ens37 root handle 1: htb default 1
+tc class add dev ens37 parent 1: classid 1:1 htb rate 512kbit ceil 2mbit burst 512k
+
+# Filtering on qdisc
+tc qdisc add dev ens37 root handle 1: htb default 1
+tc class add dev ens37 parent 1: classid 1:1 htb rate 512kbit burst 512k
+tc filter add dev ens37 protocol ip prio 17 u32 match u32 0x0016 0xffff at nexthdr+0 flowid 1:1 
+tc filter add dev ens37 protocol ip prio 16 u32 match ip pro
+
+# Mirror incom 
+tc qdisc add dev ens37 ingress
+tc filter add dev ens37 parent ffff: protocol all u32 \
+	 match u8 0 0 action mirred egress mirror dev lo
+
+## Mirror outcom 
+tc qdisc add dev ens37 handle 1: root prio 
+tc filter add dev ens37 parent 1: protocol all u32 match u8 0 0 action mirred egress mirror dev ens38
+````
