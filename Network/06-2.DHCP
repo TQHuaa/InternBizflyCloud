@@ -1,1 +1,28 @@
+# Giao thức DHCP 
+
+## DHCP là gì ?
+DHCP là một giao thức cấp phát host động. Nó cung cấp cho máy host địa chỉ IP, subnet mask, default gateway,.. tùy thuộc vào cài đặt và được cấp phát bên phía DHCP server. 
+DHCP giao tiếp bằng UDP, port UDP/67 trên DHCP server và port UDP/68 trên client.
+
+DHCP đem lại cho ta một số **lợi ích** như sau : 
+- Giúp tiết kiệm ip trong LAN, khi ngắt kết nối, các client sẽ hoàn trả lại IP và nhận cấp phát mới vào lần kết nối sau.
+- Giúp tiết kiệm thời gian hơn so với cấu hình IP tĩnh.
+
+**Hạn chế**: Trong một số trường hợp ta cần IP tĩnh thì DHCP không làm được.
+
+## Nguyên lí hoạt động của giao thức DHCP 
+Dưới đây là mô hình cấp phát IP động sử dụng DHCP.
+
+[Hình ảnh]
+
+Kịch bản client xin cấp DHCP từ modem: 
+1. Client sẽ tạo bản tin DISCOVERY để xin cấp phát địa chỉ IP dưới dạng broadcast.
+2. Các server nhận được gói tin DISCOVERY của client sẽ kiểm tra xem còn IP nào chưa sử dụng và gửi gói tin OFFER cho client dưới dạng broadcast. Trước khi gửi gói OFFER một địa chỉ IP, để phòng có các host set static địa chỉ IP này, DHCP server sẽ gửi gói tin ICMP đến địa chỉ đó. Nếu có phản hồi, server sẽ chọn địa chỉ khác.
+3. Client nhận được các gói tin OFFER. Nếu không nhận được gói OFFER trong một khoảng thời gian, nó sẽ gửi lại gói DISCOVERY. Trong trường hợp có nhiều gói tin OFFER từ nhiều DHCP server, Client sẽ chọn cái sớm nhất.
+4. Client tạo gói tin REQUEST với địa chỉ IP đã được OFFER tới tất cả các máy trong mạng. Các máy nhận không phải server đã gửi OFFER, gói tin sẽ bị hủy.
+5. Server sau khi nhận REQUEST sẽ gửi lại gói ACK để xác nhận. Quá trình cấp phát thành công.
+
+[Hình ảnh]
+
+
 
