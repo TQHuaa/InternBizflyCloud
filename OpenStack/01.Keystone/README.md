@@ -13,6 +13,6 @@
 
 [5. Application Credentials](https://github.com/TQHuaa/InternBizflyCloud/blob/main/OpenStack/01.Keystone/1.5.%20Application%20credentials.md)
 
-[6. Keystone Role]()
-7. ..
+[6. Keystone Role](https://github.com/TQHuaa/InternBizflyCloud/blob/main/OpenStack/01.Keystone/1.6.%20Roles.md)
+
 
